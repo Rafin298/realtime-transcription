@@ -20,17 +20,14 @@ class TranscribeConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         await self.accept()
 
-        # Create DB session asynchronously
-        self.session_obj = await database_sync_to_async(
-            TranscriptionSession.objects.create
-        )(user_agent="Vosk")
-
         # Runtime vars
+        self.session_obj = None  # <-- CREATE ONLY WHEN PIPELINE STARTS
         self.ffmpeg_proc = None
         self.vosk_task = None
         self.recognizer = None
         self.final_accumulated = ""
         self.start_time = None
+        self.session_saved = False
 
         await self.send_json({"type": "info", "message": "connected"})
 
@@ -78,6 +75,12 @@ class TranscribeConsumer(AsyncJsonWebsocketConsumer):
         if self.ffmpeg_proc:
             return  # already running
 
+        # Create a NEW DB session for each start
+        self.session_obj = await database_sync_to_async(
+            TranscriptionSession.objects.create
+        )(user_agent="Vosk")
+
+        self.session_saved = False
         self.start_time = time.time()
         self.final_accumulated = ""
 
@@ -134,8 +137,9 @@ class TranscribeConsumer(AsyncJsonWebsocketConsumer):
 
             self.ffmpeg_proc = None
 
-        # -------- SAVE SESSION TO DATABASE ----------
-        if self.session_obj:
+        # -------- SAVE SESSION TO DATABASE (ONLY ONCE) ----------
+        if self.session_obj and not self.session_saved:  
+            self.session_saved = True  
             duration = (time.time() - self.start_time) if self.start_time else 0
             final_text = self.final_accumulated.strip()
 
@@ -169,7 +173,11 @@ class TranscribeConsumer(AsyncJsonWebsocketConsumer):
                     text = result.get("text", "")
 
                     if text:
-                        self.final_accumulated += (" " + text).strip()
+                        if self.final_accumulated:
+                            self.final_accumulated += " " + text
+                        else:
+                            self.final_accumulated = text
+                        
                         await self.send_json({"type": "final", "text": text})
 
                 else:

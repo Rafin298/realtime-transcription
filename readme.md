@@ -2,6 +2,12 @@
 
 A real-time, CPU-only speech-to-text transcription system. Users can record audio from their browser, which is streamed to the backend for live transcription using Vosk. The system stores transcription sessions with metadata, transcript, word count, and performance metrics.
 
+## 🎥 Demo Video
+
+Watch the project in action: **[View Demo Video](https://drive.google.com/file/d/1RNvYtsoJtmCCIsIN0qhVDzTa3dBQvL4H/view?usp=sharing)**
+
+> The video demonstrates live transcription, real-time partial results, session persistence, and API endpoints in action.
+
 ## 📋 Table of Contents
 
 - [Features](#features)
@@ -44,10 +50,10 @@ A real-time, CPU-only speech-to-text transcription system. Users can record audi
 - (Optional) Node.js 18+ and Python 3.10+ for local development
 
 ### 1. Clone Repository
-
+- cloning takes some time(~1 minute) as it also includes vosk model
 ```bash
 git clone https://github.com/Rafin298/realtime-transcription.git
-cd real-time-transcription
+cd realtime-transcription
 ```
 
 ### 2. Build & Run Docker
@@ -261,25 +267,11 @@ The test suite includes:
 - [ ] **Audio file upload** for batch processing
 - [ ] **Export transcripts** as PDF/DOCX/SRT formats
 - [ ] **Search functionality** across all transcripts
-- [ ] **Speaker diarization** (identify different speakers)
-- [ ] **Timestamp markers** in transcript
-- [ ] **Edit transcript** interface for corrections
 
 ### Security & Authentication
 
 - [ ] **User authentication** (JWT/OAuth)
-- [ ] **Session ownership** (users can only access their own sessions)
 - [ ] **Rate limiting** on WebSocket connections
-- [ ] **HTTPS/WSS** for production deployment
-- [ ] **Input sanitization** for all user inputs
-
-### User Experience
-
-- [ ] **Real-time waveform visualization**
-- [ ] **Playback with synchronized highlighting**
-- [ ] **Keyboard shortcuts** for recording controls
-- [ ] **Mobile app** version
-- [ ] **Dark mode** support
 
 ### Development & Operations
 

@@ -1,0 +1,19 @@
+Django==4.2
+djangorestframework==3.14.0
+
+# WebSockets (Channels)
+channels==4.1.0
+channels-redis==4.2.0
+
+# ASGI server for WebSockets
+daphne==4.0.0
+
+# Vosk speech recognition
+vosk==0.3.45
+
+# Audio processing
+soundfile==0.12.1
+numpy==1.26.4
+
+# Environment variables (optional)
+python-dotenv==1.0.1

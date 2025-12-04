@@ -65,7 +65,6 @@ docker-compose up --build
 This will start:
 - **Backend (Django + Daphne)** → `http://localhost:8000`
 - **Frontend (Next.js)** → `http://localhost:3000`
-- **PostgreSQL Database** → `localhost:5432`
 
 > **Note:** First build may take 3-5 minutes while downloading the Vosk model (~240MB).
 
@@ -308,7 +307,6 @@ real-time-transcription/
 │   ├── next.config.js
 │   └── Dockerfile
 ├── docker-compose.yml
-├── download_model.sh           # Model download script
 ├── .env.example
 ├── .gitignore
 └── README.md
